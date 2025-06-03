@@ -1,10 +1,18 @@
-FROM node:18
+# ✅ Node.js 20 기반
+FROM node:20
 
-# corepack 활성화 및 yarn 버전 지정
+# ✅ corepack을 통해 yarn 4.1.1 활성화
 RUN corepack enable && corepack prepare yarn@4.1.1 --activate
 
-# 필수 도구 설치
-RUN apt-get update && apt-get install -y git
+# ✅ git 및 locale 관련 패키지 설치
+RUN apt-get update && \
+    apt-get install -y git locales && \
+    locale-gen ko_KR.UTF-8
 
-# 이후 컨테이너 접속해서 git clone, yarn install 등을 직접 수행
-CMD ["bash"]
+# ✅ 한국어 로케일 설정
+ENV LANG=ko_KR.UTF-8
+ENV LANGUAGE=ko_KR:ko
+ENV LC_ALL=ko_KR.UTF-8
+
+# ✅ 기본 쉘을 bash로 진입
+ENTRYPOINT [ "/bin/bash" ]
