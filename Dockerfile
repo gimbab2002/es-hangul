@@ -6,8 +6,9 @@ RUN corepack enable && corepack prepare yarn@4.1.1 --activate
 
 # ✅ git 및 locale 관련 패키지 설치
 RUN apt-get update && \
-    apt-get install -y git locales && \
-    locale-gen ko_KR.UTF-8
+    apt-get install -y git vim locales && \
+    locale-gen ko_KR.UTF-8 
+    
 
 # ✅ 한국어 로케일 설정
 ENV LANG=ko_KR.UTF-8
