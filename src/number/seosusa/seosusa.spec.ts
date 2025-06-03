@@ -1,3 +1,19 @@
+import { vi } from 'vitest';
+
+// 최상단에서 먼저 mock 등록
+vi.mock('@/number/numberToHangul', async () => {
+  const actual = await vi.importActual<typeof import('@/number/numberToHangul')>('@/number/numberToHangul');
+  return {
+    ...actual,
+    numberToHangul: (num: number) => {
+      if (num === 9999) {
+        throw new Error('mock error');
+      }
+      return actual.numberToHangul(num);
+    },
+  };
+});
+
 import { seosusa } from './seosusa';
 
 describe('seosusa', () => {
