@@ -154,7 +154,7 @@ es-hangul/
 ----------------------------------
 ## 라이선스
 
-MIT © Viva Republica, Inc. [LICENSE](https://github.com/toss/es-hangul/blob/main/LICENSE) 파일을 참고하세요.
+MIT © Viva Republica, Inc. [LICENSE](https://github.com/gimbab2002/es-hangul/blob/main/LICENSE) 파일을 참고하세요.
 
 <a title="토스" href="https://toss.im">
   <picture>
