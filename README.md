@@ -5,47 +5,54 @@
 
 한국어 | [English](https://github.com/toss/es-hangul/blob/main/README-en_us.md)
 
-`es-hangul`은 쉽게 한글을 다룰 수 있도록 돕는 JavaScript 라이브러리입니다. 편리하게 사용할 수 있는 모던한 라이브러리 API를 제공합니다. ECMAScript Modules을 사용하기 때문에, 사용자가 브라우저 환경에서 최소한의 코드를 내려받도록 할 수 있습니다.
+## 🥅 Goal
+es-hangul 프로젝트의 목적은 한글 처리 기능을 통합적으로 제공하는 라이브러리를 완성하는 것입니다. 이 프로젝트는 특히 다음과 같은 기능을 중심으로 구현 및 개선되었습니다.
+-----------
+##### 한글 정렬을 위한 collation key 생성
 
+##### 숫자 및 금액의 한글 표현 변환
+
+##### 날짜를 한국어로 출력
+
+##### 조사 자동화 처리 및 초성 기반 검색 지원
+
+##### 기존 es-hangul 오픈소스에 기능을 추가하고, 도커 이미지로 배포하여 재사용 가능하도록 패키징
+--------------
 ## 사용 예시
 
-문자열 초성화, 조사 붙이기와 같은 한글 작업을 간단히 할 수 있습니다.
+문자열 정렬, 금액 한글 변환, 날짜 한글 변환 등 다양한 한글 처리를 간편하게 할 수 있습니다.
 
 ```tsx
-import { getChoseong } from 'es-hangul';
+import { toCollationKey, sortHangulArray } from 'es-hangul';
 
-const searchWord = '라면';
-const userInput = 'ㄹㅁ';
+const words = ['사과', '가방', '바나나'];
+const sorted = sortHangulArray(words);
 
-const result = getChoseong(searchWord); // ㄹㅁ
+console.log(sorted); // ['가방', '사과', '바나나']
 
-// 검색어의 초성과 사용자 입력 초성이 일치하는지 확인
-if (result === userInput) {
-  something()
-}
+// 단일 문자열의 정렬 키를 확인할 수도 있습니다.
+const key = toCollationKey('사과');
+console.log(key); // 'b6b4b791' (음절 기반 정렬 키)
 ```
-
 ```tsx
-import { josa } from 'es-hangul';
+import { currencyToHangul } from 'es-hangul';
 
-const word1 = '사과';
-const sentence1 = josa(word1, '을/를') + ' 먹었습니다.';
-console.log(sentence1); // '사과를 먹었습니다.'
+const amount = 123456789;
+const hangulAmount = currencyToHangul(amount, '₩');
 
-const word2 = '바나나';
-const sentence2 = josa(word2, '이/가') + ' 맛있습니다.';
-console.log(sentence2); // '바나나가 맛있습니다.'
+console.log(hangulAmount); // '일억이천삼백사십오만육천칠백팔십구원'
 ```
+```tsx
+import { dateToHangul } from 'es-hangul';
 
-## 기여하기
+const date = new Date('2024-08-15');
+const hangulDate = dateToHangul(date);
 
-es-hangul 라이브러리에 기여하고 싶다고 생각하셨다면 아래 문서를 참고해주세요.
-
-[CONTRIBUTING](https://github.com/toss/es-hangul/blob/main/.github/CONTRIBUTING.md)
-
-## Thanks to
-한글 관련 JavaScript 생태계에 많은 기여를 해주시고, 많은 개발자들에게 영감을 주신 아래 라이브러리 오너 분들의 기여에 특별히 감사의 말씀드립니다.
-[hangul-js](https://github.com/e-/Hangul.js): 조재민님
+console.log(hangulDate); // '이천이십사년 팔월 십오일'
+```
+-----------------------
+## 📦 Requirements
+아래는 Docker 컨테이너 내에서 설치되어 있는 주요 라이브러리 및 환경입니다:
 
 ## 라이선스
 
