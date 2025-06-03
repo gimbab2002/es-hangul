@@ -170,7 +170,7 @@ es-hangul/
 
 ## License
 
-MIT © Viva Republica, Inc. See the [LICENSE](https://github.com/toss/es-hangul/blob/main/LICENSE) file for details.
+MIT © Viva Republica, Inc. See the [LICENSE](https://github.com/gimbab2002/es-hangul/blob/main/LICENSE) file for details.
 
 <a title="Toss" href="https://toss.im">
   <picture>
