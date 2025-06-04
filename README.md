@@ -68,7 +68,6 @@ console.log(hangulDate); // '이천이십사년 팔월 십오일'
 ## 🐳 How to Install & Run
 Docker가 설치되어 있다는 전제 하에, 다음 단계대로 실행하면 됩니다.
 
-**이 Repository는 TypeScript로 만들어진 JavaScript 라이브러리이기 때문에 코드의 실행은 유닛테스트를 작동하는 것으로 갈음합니다.**
 #### 1️⃣ Docker Image 다운로드 및 설치
 ```
 docker pull gimbab/final_2021040034:v1
@@ -82,15 +81,30 @@ docker exec -it <CONTAINER ID> /bin/bash
 ```
 위 명령어는 es-hangul 컨테이너를 생성하고 대화형 터미널로 진입합니다.
 
-#### 3️⃣ 테스트 실행:
+#### 3️⃣ demo.ts 실행:
 ```
 cd ~
 cd es-hangul/
 yarn install
-yarn test
+yarn add -D tsx
+yarn tsx demo.ts
 ```
+#### 4️⃣ 예상 실행 결과: 
+```
+--- CollationKey 기능 ---
+정렬 전: [ '사과', '가방', '바나나' ]
+정렬 후: [ '가방', '바나나', '사과' ]
+"사과"의 Collation Key: 14acacfc
 
-#### 4️⃣ 실행 종료 방법
+--- CurrencyToHangul 기능 ---
+123456789₩ → 일억이천삼백사십오만육천칠백팔십구원
+99$ → 구십구달러
+
+--- DateToHangul 기능 ---
+2025-06-04 → 이천이십오년 육월 사일
+오늘 날짜(2025. 6. 4.) → 이천이십오년 육월 사일
+```
+#### 5️⃣ 실행 종료 방법
 컨테이너를 일시 중지하거나 종료하려면 아래 명령을 사용합니다:
 ##### 실행 중인 컨테이너 나가기 (exit 입력)
 ```
@@ -123,11 +137,43 @@ es-hangul/
 ├── docs/
 ├── node_modules/
 ├── src/
-│   ├── _internal/
 │   ├── core/
+│   │   ├── assemble/
+│   │   ├── canBeChoseong/
+│   │   ├── canBeJongseong/
+│   │   ├── canBeJungseong/
+│   │   ├── collationKey/
+│   │   ├── combineCharacter/
+│   │   ├── combineVowels/
+│   │   ├── disassemble/
+│   │   ├── disassembleCompleteCharacter/
+│   │   ├── disassembleToGroups/
+│   │   ├── getChoseong/
+│   │   ├── hasBatchim/
+│   │   ├── josa/
+│   │   ├── removeLastCharacter/
+│   │   └── index.ts
 │   ├── keyboard/
+│   │   ├── convertAlphabetToQwerty/
+│   │   ├── convertHangulToQwerty/
+│   │   ├── convertQwertyToAlphabet/
+│   │   ├── convertQwertyToHangul/
+│   │   └── index.ts
 │   ├── number/
+│   │   ├── amountToHangul/
+│   │   ├── currencyToHangul/
+│   │   ├── dateToHangul/
+│   │   ├── days/
+│   │   ├── numberToHangul/
+│   │   ├── numberToHangulMixed/
+│   │   ├── seosusa/
+│   │   ├── susa/
+│   │   └── index.ts
 │   ├── pronunciation/
+│   │   ├── romanize/
+│   │   ├── standardizePronunciation/
+│   │   └── index.ts
+│   ├── _internal/
 │   └── index.ts
 ├── .eslintrc.js
 ├── .gitignore
@@ -137,19 +183,111 @@ es-hangul/
 ├── CHANGELOG.md
 ├── codecov.yml
 ├── cspell.json
+├── demo.ts
 ├── Dockerfile
 ├── LICENSE
 ├── mise.toml
 ├── netlify.toml
 ├── package.json
 ├── packlint.config.mjs
-├── README-en_us.md
 ├── README.md
+├── README-en_us.md
 ├── SECURITY.md
 ├── tsconfig.json
 ├── tsup.config.ts
 ├── vitest.config.mts
-└── yarn.lock
+├── yarn.lock
+```
+----------------------------------
+## github action
+
+main에 push할 때마다, 코드별로 유닛테스트를 진행합니다. 
+결과: 
+```
+ % Coverage report from istanbul
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |    99.76 |     100 |     100 |                   
+ _internal         |     100 |      100 |     100 |     100 |                   
+  constants.ts     |     100 |      100 |     100 |     100 |                   
+  hangul.ts        |     100 |      100 |     100 |     100 |                   
+  index.ts         |     100 |      100 |     100 |     100 |                   
+ core/assemble     |     100 |      100 |     100 |     100 |                   
+  assemble.ts      |     100 |      100 |     100 |     100 |                   
+ .../canBeChoseong |     100 |      100 |     100 |     100 |                   
+  canBeChoseong.ts |     100 |      100 |     100 |     100 |                   
+ ...canBeJongseong |     100 |      100 |     100 |     100 |                   
+  ...eJongseong.ts |     100 |      100 |     100 |     100 |                   
+ ...canBeJungseong |     100 |      100 |     100 |     100 |                   
+  ...eJungseong.ts |     100 |      100 |     100 |     100 |                   
+ core/collationKey |     100 |    96.96 |     100 |     100 |                   
+  collationKey.ts  |     100 |    96.96 |     100 |     100 | 39                
+ ...mbineCharacter |     100 |      100 |     100 |     100 |                   
+  ...eCharacter.ts |     100 |      100 |     100 |     100 |                   
+ .../combineVowels |     100 |      100 |     100 |     100 |                   
+  combineVowels.ts |     100 |      100 |     100 |     100 |                   
+ core/disassemble  |     100 |      100 |     100 |     100 |                   
+  disassemble.ts   |     100 |      100 |     100 |     100 |                   
+ ...pleteCharacter |     100 |      100 |     100 |     100 |                   
+  ...eCharacter.ts |     100 |      100 |     100 |     100 |                   
+ ...sembleToGroups |     100 |      100 |     100 |     100 |                   
+  ...leToGroups.ts |     100 |      100 |     100 |     100 |                   
+ core/getChoseong  |     100 |      100 |     100 |     100 |                   
+  constants.ts     |     100 |      100 |     100 |     100 |                   
+  getChoseong.ts   |     100 |      100 |     100 |     100 |                   
+ core/hasBatchim   |     100 |      100 |     100 |     100 |                   
+  hasBatchim.ts    |     100 |      100 |     100 |     100 |                   
+ core/josa         |     100 |      100 |     100 |     100 |                   
+  josa.ts          |     100 |      100 |     100 |     100 |                   
+ ...eLastCharacter |     100 |      100 |     100 |     100 |                   
+  ...tCharacter.ts |     100 |      100 |     100 |     100 |                   
+ ...HangulToQwerty |     100 |      100 |     100 |     100 |                   
+  constants.ts     |     100 |      100 |     100 |     100 |                   
+  ...ulToQwerty.ts |     100 |      100 |     100 |     100 |                   
+ ...ertyToAlphabet |     100 |      100 |     100 |     100 |                   
+  constants.ts     |     100 |      100 |     100 |     100 |                   
+  ...ToAlphabet.ts |     100 |      100 |     100 |     100 |                   
+ ...QwertyToHangul |     100 |      100 |     100 |     100 |                   
+  ...tyToHangul.ts |     100 |      100 |     100 |     100 |                   
+ ...amountToHangul |     100 |      100 |     100 |     100 |                   
+  ...ntToHangul.ts |     100 |      100 |     100 |     100 |                   
+ ...rrencyToHangul |     100 |      100 |     100 |     100 |                   
+  ...cyToHangul.ts |     100 |      100 |     100 |     100 |                   
+ ...r/dateToHangul |     100 |      100 |     100 |     100 |                   
+  dateToHangul.ts  |     100 |      100 |     100 |     100 |                   
+ number/days       |     100 |      100 |     100 |     100 |                   
+  constants.ts     |     100 |      100 |     100 |     100 |                   
+  days.ts          |     100 |      100 |     100 |     100 |                   
+ ...numberToHangul |     100 |      100 |     100 |     100 |                   
+  ...erToHangul.ts |     100 |      100 |     100 |     100 |                   
+ ...rToHangulMixed |     100 |      100 |     100 |     100 |                   
+  ...angulMixed.ts |     100 |      100 |     100 |     100 |                   
+ number/seosusa    |     100 |      100 |     100 |     100 |                   
+  constants.ts     |     100 |      100 |     100 |     100 |                   
+  seosusa.ts       |     100 |      100 |     100 |     100 |                   
+ number/susa       |     100 |      100 |     100 |     100 |                   
+  constants.ts     |     100 |      100 |     100 |     100 |                   
+  susa.ts          |     100 |      100 |     100 |     100 |                   
+ ...ation/romanize |     100 |      100 |     100 |     100 |                   
+  constants.ts     |     100 |      100 |     100 |     100 |                   
+  romanize.ts      |     100 |      100 |     100 |     100 |                   
+ ...ePronunciation |     100 |      100 |     100 |     100 |                   
+  constants.ts     |     100 |      100 |     100 |     100 |                   
+  ...nunciation.ts |     100 |      100 |     100 |     100 |                   
+ ...nciation/rules |     100 |      100 |     100 |     100 |                   
+  rules.utils.ts   |     100 |      100 |     100 |     100 |                   
+  transform12th.ts |     100 |      100 |     100 |     100 |                   
+  ...m13And14th.ts |     100 |      100 |     100 |     100 |                   
+  transform16th.ts |     100 |      100 |     100 |     100 |                   
+  transform17th.ts |     100 |      100 |     100 |     100 |                   
+  transform18th.ts |     100 |      100 |     100 |     100 |                   
+  transform19th.ts |     100 |      100 |     100 |     100 |                   
+  transform20th.ts |     100 |      100 |     100 |     100 |                   
+  ...d10And11th.ts |     100 |      100 |     100 |     100 |                   
+  ...Conversion.ts |     100 |      100 |     100 |     100 |                   
+  ...similation.ts |     100 |      100 |     100 |     100 |                   
+-------------------|---------|----------|---------|---------|-------------------
 ```
 ----------------------------------
 ## 라이선스
