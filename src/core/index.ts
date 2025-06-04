@@ -10,4 +10,5 @@ export { canBeJungseong } from './canBeJungseong';
 export { canBeJongseong } from './canBeJongseong';
 export { removeLastCharacter } from './removeLastCharacter';
 export { josa } from './josa';
-export { hasBatchim } from './hasBatchim'; 
+export { hasBatchim } from './hasBatchim';
+export { toCollationKey, sortHangulArray } from './collationKey';
