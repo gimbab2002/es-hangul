@@ -89,6 +89,7 @@ yarn install
 yarn add -D tsx
 yarn tsx demo.ts
 ```
+(프로젝트 디렉토리에 이동한 후, 바로 yarn tsx demo.ts 를 입력하여도 작동할 것입니다. 만약 작동하지 않는다면, yarn install 부터 시도하십시오.)
 #### 4️⃣ 예상 실행 결과: 
 ```
 --- CollationKey 기능 ---
